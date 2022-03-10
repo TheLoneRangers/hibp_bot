@@ -1,5 +1,5 @@
 import requests
-from boto3 import ssm
+import boto3
 
 def get_ssm_client():
     ssm_client = boto3.client('ssm')
@@ -12,18 +12,21 @@ def get_api_token():
         WithDecryption=True
     )
 
-    # return api_token
-    print(api_token)
+    return api_token["Parameter"]["Value"]
 
 def construct_user_agent():
     user_agent = "hibp_bot_v1"
 
     return user_agent
 
-def construct_request(user_agent, api_token, base_url):
+def construct_request(address_check_url):
         user_agent = construct_user_agent()
         api_token = get_api_token()
-        base_url = 'https://haveibeenpwned.com/api/v3/'
+        base_url = f'https://haveibeenpwned.com/api/v3/{address_check_url}'
 
 def check_address(email_address):
     address_check_url = f'breachedaccount/{email_address}'
+    
+    construct_request(address_check_url)
+
+check_address(email_address)
