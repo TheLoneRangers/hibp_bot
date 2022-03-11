@@ -26,11 +26,18 @@ def get_data(user_agent, api_token, base_url):
     headers = {'hibp-api-key': f'{api_token}', 'user-agent': f'{user_agent}' }
     breaches = requests.get(base_url, headers=headers)
 
-    match breaches.status_code:
-        case 404:
-            return f'No breaches found for {base_url.split("v3/")[1]}'
-        case 200:
-            return breaches.json
+    # Only in python 3.10, I guess...
+    # match breaches.status_code:
+    #     case 404:
+    #         return f'No breaches found for {base_url.split("v3/")[1]}'
+    #     case 200:
+    #         return breaches.json
+    if breaches.status_code == 404:
+        return f'No breaches found for {base_url.split("v3/")[1]}'
+    if breaches.status_code == 200:
+        return breaches.json
+    if breaches.status_code == 429:
+        return "You are being rate limited."
 
 def construct_request(address_check_url):
         user_agent = construct_user_agent()
