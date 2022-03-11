@@ -22,33 +22,33 @@ def construct_user_agent():
 
     return user_agent
 
-def get_data(user_agent, api_token, base_url):
+def get_data(user_agent, api_token, base_url, address):
     headers = {'hibp-api-key': f'{api_token}', 'user-agent': f'{user_agent}' }
     breaches = requests.get(base_url, headers=headers)
 
     # Only in python 3.10, I guess...
     # match breaches.status_code:
     #     case 404:
-    #         return f'No breaches found for {base_url.split("v3/")[1]}'
+    #         return f'No breaches found for {address}'
     #     case 200:
-    #         return breaches.json
+    #         return breaches.json()
    
     if breaches.status_code == 404:
-        print(f'No breaches found for {base_url.split("v3/")[1]}')
+        print(f'No breaches found for {address}')
     if breaches.status_code == 200:
-        print(breaches.json)
+        print(f'Breaches for {address}:\n{breaches.json()}')
     if breaches.status_code == 429:
         print("You are being rate limited.")
 
-def construct_request(address_check_url):
+def construct_request(address_check_url, address):
         time.sleep(2)
         user_agent = construct_user_agent()
         api_token = get_api_token()
         base_url = f'https://haveibeenpwned.com/api/v3/{address_check_url}'
 
-        get_data(user_agent, api_token, base_url)
+        get_data(user_agent, api_token, base_url, address)
 
 def check_address(address):
         address_check_url = f'breachedaccount/{address}'
     
-        construct_request(address_check_url)
+        construct_request(address_check_url, address)
