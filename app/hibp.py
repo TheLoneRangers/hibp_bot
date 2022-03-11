@@ -32,17 +32,16 @@ def get_data(user_agent, api_token, base_url):
     #         return f'No breaches found for {base_url.split("v3/")[1]}'
     #     case 200:
     #         return breaches.json
-    print(breaches.status_code)
+   
     if breaches.status_code == 404:
-        return f'No breaches found for {base_url.split("v3/")[1]}'
+        print(f'No breaches found for {base_url.split("v3/")[1]}')
     if breaches.status_code == 200:
-        return breaches.json
+        print(breaches.json)
     if breaches.status_code == 429:
-        return "You are being rate limited."
-
-    time.sleep(2)
+        print("You are being rate limited.")
 
 def construct_request(address_check_url):
+        time.sleep(2)
         user_agent = construct_user_agent()
         api_token = get_api_token()
         base_url = f'https://haveibeenpwned.com/api/v3/{address_check_url}'
