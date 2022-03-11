@@ -1,6 +1,7 @@
 from pkgutil import get_data
 import requests
 import boto3
+import time
 
 def get_ssm_client():
     ssm_client = boto3.client('ssm')
@@ -36,5 +37,6 @@ def construct_request(address_check_url):
 def check_address(domain, address):
     for name in address:
         address_check_url = f'breachedaccount/{name}?domain={domain}'
+        time.sleep(2)
     
         construct_request(address_check_url)

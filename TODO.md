@@ -15,3 +15,4 @@
 - get/source email list from s3
 - validate >1 domain functions correctly
 - Not sure how to test this, but it'd be nice to have a known-pwned address to verify this works right. 
+- need to add some sleeps/rate limit handling
