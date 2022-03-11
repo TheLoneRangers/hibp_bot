@@ -49,8 +49,6 @@ def construct_request(address_check_url):
         get_data(user_agent, api_token, base_url)
 
 def check_address(address):
-    for name in address:
-        print(f'Checking {name}...')
-        address_check_url = f'breachedaccount/{name}'
+        address_check_url = f'breachedaccount/{address}'
     
         construct_request(address_check_url)
