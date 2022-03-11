@@ -1,3 +1,4 @@
+from pkgutil import get_data
 import requests
 import boto3
 
@@ -19,14 +20,20 @@ def construct_user_agent():
 
     return user_agent
 
+def get_data(user_agent, api_token, base_url):
+    headers = {'hibp-api-key': f'{api_token}', 'user-agent': f'{user_agent}' }
+    breaches = requests.get(base_url, headers=headers)
+
 def construct_request(address_check_url):
         user_agent = construct_user_agent()
         api_token = get_api_token()
         base_url = f'https://haveibeenpwned.com/api/v3/{address_check_url}'
 
-def check_address(email_address):
-    address_check_url = f'breachedaccount/{email_address}'
+        get_data(user_agent, api_token, base_url)
+
+def check_address(domain, address):
+    address_check_url = f'breachedaccount/{address}?domain={domain}'
     
     construct_request(address_check_url)
 
-check_address(email_address)
+check_address(domain, address)
