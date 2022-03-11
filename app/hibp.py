@@ -23,8 +23,10 @@ def construct_user_agent():
     return user_agent
 
 def get_data(user_agent, api_token, base_url):
+    print('get_data')
     headers = {'hibp-api-key': f'{api_token}', 'user-agent': f'{user_agent}' }
     breaches = requests.get(base_url, headers=headers)
+    time.sleep(2)
 
     # Only in python 3.10, I guess...
     # match breaches.status_code:
@@ -48,7 +50,7 @@ def construct_request(address_check_url):
 
 def check_address(address):
     for name in address:
+        print(f'Checking {name}...')
         address_check_url = f'breachedaccount/{name}'
-        time.sleep(2)
     
         construct_request(address_check_url)
