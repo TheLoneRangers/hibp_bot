@@ -1,4 +1,5 @@
 from pkgutil import get_data
+from posixpath import split
 import requests
 import boto3
 import time
@@ -25,7 +26,11 @@ def get_data(user_agent, api_token, base_url):
     headers = {'hibp-api-key': f'{api_token}', 'user-agent': f'{user_agent}' }
     breaches = requests.get(base_url, headers=headers)
 
-    print(breaches)
+    match breaches.status_code:
+        case 404:
+            return f'No breaches found for {base_url.split("v3/")[1]}'
+        case 200:
+            return breaches.json
 
 def construct_request(address_check_url):
         user_agent = construct_user_agent()
@@ -34,9 +39,9 @@ def construct_request(address_check_url):
 
         get_data(user_agent, api_token, base_url)
 
-def check_address(domain, address):
+def check_address(address):
     for name in address:
-        address_check_url = f'breachedaccount/{name}?domain={domain}'
+        address_check_url = f'breachedaccount/{name}'
         time.sleep(2)
     
         construct_request(address_check_url)
