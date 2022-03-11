@@ -23,10 +23,8 @@ def construct_user_agent():
     return user_agent
 
 def get_data(user_agent, api_token, base_url):
-    print('get_data')
     headers = {'hibp-api-key': f'{api_token}', 'user-agent': f'{user_agent}' }
     breaches = requests.get(base_url, headers=headers)
-    time.sleep(2)
 
     # Only in python 3.10, I guess...
     # match breaches.status_code:
@@ -34,12 +32,15 @@ def get_data(user_agent, api_token, base_url):
     #         return f'No breaches found for {base_url.split("v3/")[1]}'
     #     case 200:
     #         return breaches.json
+    print(breaches.status_code)
     if breaches.status_code == 404:
         return f'No breaches found for {base_url.split("v3/")[1]}'
     if breaches.status_code == 200:
         return breaches.json
     if breaches.status_code == 429:
         return "You are being rate limited."
+
+    time.sleep(2)
 
 def construct_request(address_check_url):
         user_agent = construct_user_agent()
