@@ -8,6 +8,10 @@ def get_ssm_client():
     ssm_client = boto3.client('ssm')
     return ssm_client
 
+def get_s3_client():
+    s3_client = boto3.client('s3')
+    return s3_client
+
 def get_api_token():
     client = get_ssm_client()
     api_token = client.get_parameter(
@@ -52,3 +56,23 @@ def check_address(address):
         address_check_url = f'breachedaccount/{address}'
     
         construct_request(address_check_url, address)
+      
+def parameterized_check(payload):
+    return(payload)
+        
+def auto_check():
+        s3_client = get_s3_client()
+        bucket = "jh-hibp-bot"
+        file = "emails.yaml"
+        
+        emails = s3_client.get_object(
+            Bucket=bucket,
+            Key=file
+        )["Body"].read()
+        
+        for email in emails:
+            addys = yaml.safe_load(emails)
+
+            for address in addys:
+                hipb.check_address(address)
+
