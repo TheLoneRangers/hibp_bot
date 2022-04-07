@@ -1,11 +1,10 @@
 import yaml
 import app.hibp as hipb
 
-def handler():
-    with open(r'app/emails.yaml') as file:
-        addys = yaml.safe_load(file)
-
-        for address in addys:
-            hipb.check_address(address)
+def handler(payload, context):
+    if payload["auto"] = true:
+        return hibp.auto_check
+    else:
+        return hibp.parameterized_check(payload)
         
-handler()
+handler(payload, context)
