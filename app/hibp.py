@@ -3,6 +3,7 @@ from posixpath import split
 import requests
 import boto3
 import time
+import yaml
 
 def get_ssm_client():
     ssm_client = boto3.client('ssm')
@@ -56,10 +57,7 @@ def check_address(address):
         address_check_url = f'breachedaccount/{address}'
     
         construct_request(address_check_url, address)
-      
-def parameterized_check(payload):
-    return(payload)
-        
+
 def auto_check():
         s3_client = get_s3_client()
         bucket = "jh-hibp-bot"
@@ -70,9 +68,8 @@ def auto_check():
             Key=file
         )["Body"].read()
         
-        for email in emails:
-            addys = yaml.safe_load(emails)
+        addys = yaml.safe_load(emails)
 
-            for address in addys:
-                hipb.check_address(address)
+        for address in addys:
+            check_address(address)
 
