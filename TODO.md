@@ -1,17 +1,13 @@
 # Further plans
-- Source emails.yaml from s3 instead of here in the repo
-  - done
 - more routes/api calls to HIBP
-- validate this works for >1 domain...
-  - done
-- full lambda-ization
-- dockerize
 - slack integration for on-demand run?
   - flask fronted? jenkins webhook? 
+- ad-hoc runs, probably from slack
 
 # Possible features
 - API gateway?
   - would allow easier control over params
+  - maybe flask for this?
 - dynamic updating of email list
 
 ## In-Progress things
@@ -26,4 +22,6 @@
 
 ### feature2 branch
 - change "no breach" result to handle the 404 "good result"
+  - oops, this was actually already done.
 - dockerization
+  - done. jenkins is local-only, but the container builds, runs, and outputs results to the console. Need to figure out how to properly surface results to people, but that's probably not going to happen here in Git. 
