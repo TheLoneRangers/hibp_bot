@@ -1,12 +1,18 @@
 import yaml
-import app.hibp as hipb
+from app.hibp import auto_check, check_address 
 
-def handler():
-    with open(r'app/emails.yaml') as file:
-        addy = yaml.full_load(file)
+#test payloads
+##auto 
+#payload = {"auto":"true"}
+##not auto
+payload={"address":"jhargr200@gmail.com", "auto":"false"}
 
-        for domain, address in addy.items():
-            # print(domain, ":", address)
-            hipb.check_address(domain, address)
+context = {} 
+
+def handler(payload, context):
+    if payload["auto"] == "true":
+        auto_check()
+    else:
+        check_address(payload["address"])
         
-handler()
+handler(payload, context)
