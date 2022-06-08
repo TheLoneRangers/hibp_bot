@@ -3,10 +3,7 @@ from app.hibp import auto_check, check_address
 
 #test payloads
 ##auto 
-#payload = {"auto":"true"}
-##not auto
-payload={"address":"jhargr200@gmail.com", "auto":"false"}
-
+payload = {"auto":"true"}
 context = {} 
 
 def handler(payload, context):
